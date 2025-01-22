@@ -1,0 +1,243 @@
+1. Create Deployment in an declarative way
+    a) Create a Deployment
+        Name: testdeploy
+        Image: gaigoleb2/cuswebsrvhostname:v1
+        Replicas: 10
+        Strategy: Recreate
+    b) Create a service to expose the Deployment
+        Service name: test-svc
+        Service type: NodePort
+        port: 8000
+        targetPort: 80
+    c) Check website output using curl
+    d) Perform upgrade using recreate strategy
+        Image: gaigoleb2/cuswebsrvhostname:v2
+    e) Check the status of the upgrade
+    f) Perform rollback upgrade
+    g) Check the status of the upgrade
+    h) Edit the deployment to perform upgrade using rolling upgrade strategy and this time record the version
+
+Solution:
+
+1 Create deployment in declarative way
+a) Create deployment
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testdeploy
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      env: prod
+  strategy:
+    type: Recreate
+  template:
+    metadata:
+      name: testpod
+      labels:
+        env: prod
+    spec:
+      containers:
+        - name: testcontainer
+          image: gaigoleb2/cuswebsrvhostname:v1
+
+b) Create a service to expose the Deployment
+
+apiVersion: v1
+kind: Service
+metadata:
+  name: testsvc
+spec:
+  type: NodePort
+  selector:
+    env: prod
+  ports:
+    - targetPort: 80
+      port: 8000
+      nodePort: 32000
+
+c) Check website output using curl
+
+$ while :; do curl --silent 192.168.49.2:32000; sleep 3; done
+####################################
+### My hostname is :  testdeploy-6dbbbdb59c-7qnjj ###
+####################################
+####################################
+### My hostname is :  testdeploy-6dbbbdb59c-wdhqn ###
+####################################
+####################################
+### My hostname is :  testdeploy-6dbbbdb59c-jnvxp ###
+####################################
+
+$ kubectl get deployment,svc
+NAME                         READY   UP-TO-DATE   AVAILABLE   AGE
+deployment.apps/testdeploy   10/10   10           10          6m12s
+
+NAME                 TYPE        CLUSTER-IP      EXTERNAL-IP   PORT(S)          AGE
+service/kubernetes   ClusterIP   10.96.0.1       <none>        443/TCP          10d
+service/testsvc      NodePort    10.101.13.180   <none>        8000:32000/TCP   6m21s
+
+d) Perform upgrade
+
+$ kubectl set image deployment testdeploy testcontainer=gaigoleb2/cuswebsrvhostname:v2
+deployment.apps/testdeploy image updated
+
+e) Upgrade status
+
+$ kubectl rollout status deploy testdeploy
+Waiting for deployment "testdeploy" rollout to finish: 0 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 1 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 2 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 3 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 4 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 5 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 6 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 7 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 8 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 9 of 10 updated replicas are available...
+deployment "testdeploy" successfully rolled out
+
+$ while :; do curl --silent 192.168.49.2:32000; sleep 3; done
+####################
+### My hostname is :  testdeploy-749874dd6-5cgtx
+####################
+
+#######################
+### IP Address Info ###
+#######################
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.244.2.12  netmask 255.255.0.0  broadcast 10.244.255.255
+        ether 3e:f7:9e:5d:5c:b0  txqueuelen 0  (Ethernet)
+        RX packets 1  bytes 42 (42.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1  bytes 42 (42.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+####### EoF #######
+
+f) Perform rollback upgrade
+
+$ kubectl rollout undo deployment testdeploy
+deployment.apps/testdeploy rolled back
+
+g) Check the status of the upgrade 
+
+$ kubectl rollout status deploy testdeploy
+Waiting for deployment "testdeploy" rollout to finish: 0 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 0 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 0 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 1 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 2 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 3 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 4 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 5 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 6 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 7 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 8 of 10 updated replicas are available...
+Waiting for deployment "testdeploy" rollout to finish: 9 of 10 updated replicas are available...
+deployment "testdeploy" successfully rolled out
+
+$ while :; do curl --silent 192.168.49.2:32000; sleep 3; done
+####################################
+### My hostname is :  testdeploy-6dbbbdb59c-zkxp6 ###
+####################################
+####################################
+### My hostname is :  testdeploy-6dbbbdb59c-lvqjk ###
+####################################
+####################################
+### My hostname is :  testdeploy-6dbbbdb59c-cpgnx ###
+####################################
+
+h) Edit the deployment to perform upgrade using rolling upgrade strategy and this time record the version
+
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: testdeploy
+spec:
+  replicas: 10
+  selector:
+    matchLabels:
+      env: prod
+  strategy:
+    type: RollingUpgrade
+  template:
+    metadata:
+      name: testpod
+      labels:
+        env: prod
+    spec:
+      containers:
+        - name: testcontainer
+          image: gaigoleb2/cuswebsrvhostname:v1
+
+$ kubectl apply -f testdeploy.yaml
+Warning: resource deployments/testdeploy is missing the kubectl.kubernetes.io/last-applied-configuration annotation which is required by kubectl apply. kubectl apply should only be used on resources created declaratively by either kubectl create --save-config or kubectl apply. The missing annotation will be patched automatically.
+deployment.apps/testdeploy configured
+
+$ kubectl set image deployment testdeploy testcontainer=gaigoleb2/cuswebsrvhostname:v2
+deployment.apps/testdeploy image updated
+
+$ kubectl rollout status deploy testdeploy
+Waiting for deployment "testdeploy" rollout to finish: 0 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 3 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 5 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 6 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 7 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 9 out of 10 new replicas have been updated...
+Waiting for deployment "testdeploy" rollout to finish: 4 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 3 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 3 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 3 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 2 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 2 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 2 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 1 old replicas are pending termination...
+Waiting for deployment "testdeploy" rollout to finish: 1 old replicas are pending termination...
+deployment "testdeploy" successfully rolled out
+
+$ while :; do curl --silent 192.168.49.2:32000; sleep 3; done
+####################
+### My hostname is :  testdeploy-749874dd6-r959p
+####################
+
+#######################
+### IP Address Info ###
+#######################
+eth0: flags=4163<UP,BROADCAST,RUNNING,MULTICAST>  mtu 1500
+        inet 10.244.2.34  netmask 255.255.0.0  broadcast 10.244.255.255
+        ether 92:ba:1d:c0:2d:e8  txqueuelen 0  (Ethernet)
+        RX packets 1  bytes 42 (42.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 1  bytes 42 (42.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+lo: flags=73<UP,LOOPBACK,RUNNING>  mtu 65536
+        inet 127.0.0.1  netmask 255.0.0.0
+        loop  txqueuelen 1000  (Local Loopback)
+        RX packets 0  bytes 0 (0.0 B)
+        RX errors 0  dropped 0  overruns 0  frame 0
+        TX packets 0  bytes 0 (0.0 B)
+        TX errors 0  dropped 0 overruns 0  carrier 0  collisions 0
+
+####### EoF #######
+
