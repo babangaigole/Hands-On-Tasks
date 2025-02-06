@@ -1,4 +1,4 @@
-1. Create ReplicaSet in an declarative way
+1. Create ReplicaSet in a declarative way
     a) Create a ReplicaSet
         Name: test-rs
         Image: gaigoleb2/cuswebsrvhostname:v1
