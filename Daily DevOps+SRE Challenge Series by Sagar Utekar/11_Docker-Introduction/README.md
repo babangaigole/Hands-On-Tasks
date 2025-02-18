@@ -15,7 +15,7 @@
 ### Docker Installation Official Document
 Ref: https://docs.docker.com/engine/install/
 
-https://github.com/babangaigole/Hands-On-Tasks/blob/main/Daily%20DevOps%2BSRE%20Challenge%20Series%20by%20Sagar%20Utekar/11_Docker-Introduction/images/Docker_Ver.png
+<img width="223" alt="Docker_Ver" src="https://github.com/user-attachments/assets/8b6d17d8-2f70-4c29-a008-fc21b0439706" />
 
 ### Pull & Run a Container
 
