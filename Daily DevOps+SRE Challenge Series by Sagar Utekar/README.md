@@ -18,6 +18,6 @@ Below is the list of the tasks I have attempted so far.
 - [ ] [Day 08: ]
 - [ ] [Day 09: ]
 - [ ] [Day 10: ]
-- [x] [Day 11: Docker Challenge: Getting Your Feet Wet with Docker]
+- [x] [Day 11: Docker Challenge: Getting Your Feet Wet with Docker]()
 
 #getfitwithsagar #SRELife #DevOpsForAll
