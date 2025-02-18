@@ -20,27 +20,45 @@ Ref: https://docs.docker.com/engine/install/
 ### Pull & Run a Container
 
 Pull the official nginx image:
-docker pull nginx
+
+<img width="482" alt="Docker_pull" src="https://github.com/user-attachments/assets/316ab133-705b-4489-9051-ff67df605fdd" />
+
 Run the container in detached mode with port mapping:
-docker run -d --name my-nginx -p 8080:80 nginx
+
+<img width="404" alt="Docker_run" src="https://github.com/user-attachments/assets/7e61c0e6-316e-4417-9a09-32d80cc10675" />
 
 ### Inspect & Explore
 
 List all running containers:
-docker ps
+
+<img width="695" alt="Docker_container_list" src="https://github.com/user-attachments/assets/4a5f1d19-7c90-4b8c-baee-78144673a0bc" />
+
 Access the running container's logs:
-docker logs my-nginx
+
+<img width="579" alt="Docker_container_logs" src="https://github.com/user-attachments/assets/8e341649-04a3-4053-8091-a6beb1a6b7ed" />
+
 Inspect the container metadata:
-docker inspect my-nginx
+
+<img width="802" alt="Docker_inspect" src="https://github.com/user-attachments/assets/607b1f48-79c7-428e-b129-7ea38312f277" />
 
 ### Build a Custom Docker Image
 
-List all running containers:
-docker ps
-Access the running container's logs:
-docker logs my-nginx
-Inspect the container metadata:
-docker inspect my-nginx
+Download and save the provided index.html file to your project directory:
+
+
+
+Create a Dockerfile in the same directory with the following content:
+
+
+
+Build the image and tag it:
+
+
+
+Run the custom container:
+
+
+
 
 ### Access & Test
 
