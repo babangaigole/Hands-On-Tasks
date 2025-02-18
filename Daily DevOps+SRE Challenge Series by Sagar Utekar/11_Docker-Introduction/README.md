@@ -55,19 +55,23 @@ Build the image and tag it:
 
 <img width="917" alt="Docker_build" src="https://github.com/user-attachments/assets/4ae65a3a-f894-44d9-a5f0-f162ed8c9465" />
 
+List image
+
 <img width="522" alt="Docker_image_list" src="https://github.com/user-attachments/assets/c612338a-5e64-4a41-9d38-1adf63545d75" />
 
 Run the custom container:
 
 <img width="815" alt="Docker_my_custom_nginx_run" src="https://github.com/user-attachments/assets/a9dc86b0-bcbb-4569-9643-fe16fe3f6d67" />
 
-
-
 ### Access & Test
 
-Open your browser and visit:
 Default NGINX: http://localhost:8080
+
+<img width="458" alt="Docker_curl_8080" src="https://github.com/user-attachments/assets/643c46ce-651e-48bd-a875-cc4cae5d1e90" />
+
 Custom NGINX: http://localhost:8081
+
+<img width="452" alt="Docker_curl_8081" src="https://github.com/user-attachments/assets/8111d675-6490-49b4-bfa6-90e4c1567b4d" />
 
 ### Troubleshooting Challenges
 
