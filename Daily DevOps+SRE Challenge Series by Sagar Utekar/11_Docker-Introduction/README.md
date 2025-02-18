@@ -97,26 +97,13 @@ Introduce an error in the Dockerfile (e.g., a typo in the COPY instruction). Bui
 ### Cleanup
 
 Stop and remove the containers:
-docker stop my-nginx my-custom-nginx
-docker rm my-nginx my-custom-nginx 
+
+<img width="785" alt="Docker_stop_remove" src="https://github.com/user-attachments/assets/c0fc0c1a-a903-4beb-978b-22bc7a32b748" />
+
 Remove the custom image:
-docker rmi my-nginx:custom
 
+<img width="544" alt="Docker_image_list_2" src="https://github.com/user-attachments/assets/f3aa14b1-56d6-4969-834f-b442401eb952" />
 
+<img width="484" alt="Docker_image_delete" src="https://github.com/user-attachments/assets/3ec915cf-fa68-4e86-b2f1-34b761e653c4" />
 
-
-
-
-####Submission Guidelines
-Proof of Completion:
-
-Screenshots showing the running containers (docker ps).
-Screenshots of the custom webpage served via my-custom-nginx.
-Output from docker logs my-nginx.
-Documentation:
-
-Update your README.md with:
-Steps to build and run the custom image.
-Challenges faced and how you resolved them.
-Key learnings.
 
