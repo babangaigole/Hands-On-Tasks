@@ -45,18 +45,21 @@ Inspect the container metadata:
 
 Download and save the provided index.html file to your project directory:
 
-
+<img width="366" alt="Docker_index_file" src="https://github.com/user-attachments/assets/de851fc4-ae96-4bb1-9a99-5e50d0bcf05c" />
 
 Create a Dockerfile in the same directory with the following content:
 
-
+<img width="372" alt="Docker_Dockerfile" src="https://github.com/user-attachments/assets/27e5700c-1457-448d-952d-aff36ea5df55" />
 
 Build the image and tag it:
 
+<img width="917" alt="Docker_build" src="https://github.com/user-attachments/assets/4ae65a3a-f894-44d9-a5f0-f162ed8c9465" />
 
+<img width="522" alt="Docker_image_list" src="https://github.com/user-attachments/assets/c612338a-5e64-4a41-9d38-1adf63545d75" />
 
 Run the custom container:
 
+<img width="815" alt="Docker_my_custom_nginx_run" src="https://github.com/user-attachments/assets/a9dc86b0-bcbb-4569-9643-fe16fe3f6d67" />
 
 
 
