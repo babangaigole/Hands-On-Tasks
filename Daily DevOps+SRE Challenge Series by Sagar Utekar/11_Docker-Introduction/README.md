@@ -75,8 +75,22 @@ Custom NGINX: http://localhost:8081
 
 ### Troubleshooting Challenges
 
-Try running another container on the same port 8080. Observe and fix the issue.
-Stop a running container and attempt to access its application in the browser. What happens?
+#### Try running another container on the same port 8080. Observe and fix the issue.
+
+<img width="914" alt="Docker_same_host_port_error" src="https://github.com/user-attachments/assets/81a478ba-350b-4167-bdb8-8517d49bb53b" />
+
+We cannot map the same host port to two different containers simultaneously. Each port on the host can only be bound to a single container at a time. If you try to map the same host port to multiple containers, you will encounter an error indicating that the port is already in use. However, we can only overcome this issue by binding another available host port e.g. 8082.
+
+<img width="781" alt="Docker_run_8082" src="https://github.com/user-attachments/assets/eae4fa24-2bf1-4177-9ad9-ab590a43f2dc" />
+
+#### Stop a running container and attempt to access its application in the browser. What happens?
+
+When you stop a running container and attempt to access its application in the browser, the application will no longer be accessible. This happens because the container, which was hosting the application, is no longer running and therefore not serving any content.
+
+<img width="508" alt="Docker_stop_start" src="https://github.com/user-attachments/assets/4c39046f-d58d-41b2-bd13-305519f5cc2a" />
+
+We can access application in the browser again by starting the container.
+
 Use the docker logs command to debug and restart a misconfigured container.
 Introduce an error in the Dockerfile (e.g., a typo in the COPY instruction). Build the image and fix the issue by reading the logs.
 
