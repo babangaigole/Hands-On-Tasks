@@ -63,7 +63,7 @@ $ docker container stop redis-server
 
 $ docker container stop yelb-db
 
-![redis-srv_delete](https://github.com/user-attachments/assets/12dc468e-2dfa-4ca5-b144-10faf4804644)
+![yelb-db-delete](https://github.com/user-attachments/assets/6b9f30d2-bc8a-4d37-a557-e4c777796fb1)
 
 Re-creating both the containers resumes the UI with correct data. This is only possible due to the persistent data stores for both containers.
 
