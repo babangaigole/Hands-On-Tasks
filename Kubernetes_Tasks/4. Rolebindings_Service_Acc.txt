@@ -1,4 +1,4 @@
-##Task:
+## Task:
 # Role, Rolebinding & Service Accounts
 1. Create a Kubernetes user 'chester' and generate private key
 2. Create a CSR
@@ -6,7 +6,7 @@
 4. Create a role and rolebinding to allow both 'chester' & 'reader' to get, list & watch - pods, replicasets & deployments
 5. Verify the permissions
 
-##Solution:
+## Solution:
 
 ### Generate Certificates for a User
 This command will create a private RSA key for Chester.
