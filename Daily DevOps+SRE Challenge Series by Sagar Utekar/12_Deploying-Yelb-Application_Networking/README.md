@@ -68,4 +68,22 @@ $ docker container rm yelb-db
 
 Re-creating both the containers brings back the UI with the missing data. This is only possible due to the persistent data stores for both containers.
 
+## Cleanup
+
+### 1. Stop the containers
+$ docker container stop redis-server yelb-db yelb-appserver yelb-ui
+
+### 2. Remove the containers
+$ docker container rm redis-server yelb-db yelb-appserver yelb-ui
+
+### 3. Remove network
+$ docker network rm yelb-network
+
+### 4. Remove images
+$ docker image rm redis:4.0.2 mreferre/yelb-db:0.6 mreferre/yelb-appserver:0.7 mreferre/yelb-ui:0.10
+
+### 5. Remove persistent volumes and directories
+$ docker volume rm pgsqldata
+$ rm -rf /tmp/myredis/conf/
+
 
