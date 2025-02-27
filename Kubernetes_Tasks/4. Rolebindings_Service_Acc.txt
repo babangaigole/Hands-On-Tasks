@@ -1,41 +1,60 @@
+##Task:
+# Role, Rolebinding & Service Accounts
+1. Create a Kubernetes user 'chester' and generate private key
+2. Create a CSR
+3. Create a service account 'reader'
+4. Create a role and rolebinding to allow both 'chester' & 'reader' to get, list & watch - pods, replicasets & deployments
+5. Verify the permissions
+
+##Solution:
+
+### Generate Certificates for a User
+This command will create a private RSA key for Chester.
+
 $ openssl genrsa -out chester.pem
+
+### Create Certificate Signing Request (CSR) for Chester
 $ openssl req -new -key chester.pem -out chester.csr -subj "/CN=chester"
+
+### Generate base64 encoded value for the CSR.
 $ cat chester.csr |  base64 | tr -d "\n"
+
+### Create Certificate Signing Request Object
+Copy and paste the encoded base64 value in request field.
+
+$ vi chester-csr.yaml
+
+apiVersion: certificates.k8s.io/v1
 kind: CertificateSigningRequest
 metadata:
   name: chester
 spec:
-  request: LS0tLS1CRUdJTiBDRVJUSUZJQ0FURSBSRVFVRVNULS0tLS0KTUlJQ1Z6Q0NBVDhDQVFBd0VqRVFNQTRHQTFVRUF3d0hZMmhsYzNSbGNqQ0NBU0l3RFFZSktvWklodmNOQVFFQgpCUUFEZ2dFUEFEQ0NBUW9DZ2dFQkFNSHhiaEFTYmE2K05JTEMvSnAyK3ZiZXVVeFV3WXVxZEZVcmNxbEpBSWVDCnZlQzI2ajJ3dGYwdmJPQU0zSVpRWUJwaHNJbTBDYmEwQXJ5QTV3MXlOaEJiSmIxRFdYVmdTVlFOQVl5Sjh4MDAKTDN0dUtZcXRobHZWQjN5Y2JoZmNHa2tQZDluTVdSb0FGY3NneUUzY3lvOEV2RkJBQmJsTEFCVVNnZ1Y3Nk1zZQpTZDByc1ZBU2o4Q1JhN3BSRzg1RlNWTnlkQ1gyTHRlVmlMVlhmc0lERkloN3JlL2d4cGdwNk1uS29GR2xZSGFHCi9tVERDVERvWm45dHdVMnloSFdVc1Btdmp5aFRLTUZLZWpSUUIvdkdMbmVIZmJ1cm0xLytFQjgyK3EzamFITlAKTC9BNUZqMEthUHE4QzRwRXpubzNhM0pFNERObE5NNEJuZzdwSytxdUVjTUNBd0VBQWFBQU1BMEdDU3FHU0liMwpEUUVCQ3dVQUE0SUJBUUFGZEhtN0NmdjRTRjlzRkI4bzMvMk9vYXhsMVU0VzA4N0dsdzdEMmRZRGFrNFpnNGZNCmYzeUhHdlY0U3FqbHJsb2gzNGx0TWdtUGZ3NlUzaDZDVnV1aXFLdzlpeDFTTnM5VXBvQVNOSS9lOE94Sm5ldkQKZkcySU9LN0I1djgybk1vTzR5VFNoY2ZIYnl4Y1hMNHJVY1ZmQllJMUorV0ZrSVVuUmp1RG95bytYL0FKaXgzZAo2RWd1cGx3cG5QcTczSkxUOS9LWVVrSGVybncrRnZkekwwZHphYk85cjlYdUVBeU1KcU90aThpNU9sUWxQTjFYClAxRXNPYUtLNmZyMWhmWHdMYUJzeEhUVEVvaUJkYnBPUFJSbXo5NzNjWnljSEcyWDhyWGFoMVcwV1VHM1NUVVIKTEVyb0Ntc253Y0xmUUI2T3J2TEtCZVg4ZGpocURuWlkyOTZyCi0tLS0tRU5EIENFUlRJRklDQVRFIFJFUVVFU1QtLS0tLQo=
+  request: Paste the base64 encoded value
   signerName: kubernetes.io/kube-apiserver-client
   expirationSeconds: 86400  # one day
   usages:
   - client auth
 
-$ kubectl create -f chester-csro.yaml
+$ kubectl create -f chester-csr.yaml
+
+### Verify
 $ kubectl get csr
+
+### Approve the Certificate Signing Request for Chester
 $ kubectl certificate approve chester
+
+### Verify
+$ kubectl get csr
+
+### Create a Service Account
 $ kubectl create sa reader
+
+### Create a Role
 $ kubectl create role chester-role --verb=get,list,watch --resource=pod,replicaset,deployment
+
+### Create a Role Binding
 $ kubectl create rolebinding chester-rolebinding --role chester-role --user=chester --serviceaccount=default:reader
+
+### Verify
 $ kubectl auth can-i list deploy --as chester
 $ kubectl auth can-i list deploy --as system:serviceaccount:default:reader
-
-
-
-
-Private Registry & Image Pull Secret
-
-
-
-
-Run pod with user 1000 and capability as SYS_TIME
-
-Edit the pod ubuntu-sleeper to run the sleep process with user ID 1010.
-Note: Only make the necessary changes. Do not modify the name or image of the pod.
-
-
-
-wordpress app
-network policy
-db secret
-pv volume for db data
