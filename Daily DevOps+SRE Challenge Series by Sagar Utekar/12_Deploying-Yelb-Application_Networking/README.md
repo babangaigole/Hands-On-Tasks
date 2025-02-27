@@ -52,19 +52,20 @@ To visit the UI, open http://localhost:8080
 ![Yeb-UI](https://github.com/user-attachments/assets/15d5aeae-5eee-4e8a-96ee-2b4bf36f2f31)
 
 ## Troubleshooting
+Deleting the redis and postgreSQL servers results in loss of data from the UI.
 
 ### 1. Deleting redis-server container
 
 $ docker container stop redis-server
-
-![redis-srv_delete](https://github.com/user-attachments/assets/fa619a71-920a-47cb-af47-976cc6a54d17)
+$ docker container rm redis-server
 
 ### 2. Deleting yelb-db container
 
 $ docker container stop yelb-db
+$ docker container rm yelb-db
 
-![yelb-db-delete](https://github.com/user-attachments/assets/6b9f30d2-bc8a-4d37-a557-e4c777796fb1)
+![redis-srv_delete](https://github.com/user-attachments/assets/fa619a71-920a-47cb-af47-976cc6a54d17)
 
-Re-creating both the containers resumes the UI with correct data. This is only possible due to the persistent data stores for both containers.
+Re-creating both the containers brings back the UI with the missing data. This is only possible due to the persistent data stores for both containers.
 
 
