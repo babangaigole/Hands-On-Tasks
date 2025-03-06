@@ -15,15 +15,21 @@
 ### Docker Installation Official Document
 Ref: https://docs.docker.com/engine/install/
 
+    $ docker --version
+
 <img width="223" alt="Docker_Ver" src="https://github.com/user-attachments/assets/8b6d17d8-2f70-4c29-a008-fc21b0439706" />
 
 ### Pull & Run a Container
 
 Pull the official nginx image:
 
+    $ docker pull nginx
+
 <img width="482" alt="Docker_pull" src="https://github.com/user-attachments/assets/316ab133-705b-4489-9051-ff67df605fdd" />
 
 Run the container in detached mode with port mapping:
+
+    $ docker run -d --name=my-nginx -p 8080:80 nginx
 
 <img width="404" alt="Docker_run" src="https://github.com/user-attachments/assets/7e61c0e6-316e-4417-9a09-32d80cc10675" />
 
@@ -31,13 +37,19 @@ Run the container in detached mode with port mapping:
 
 List all running containers:
 
+    $ docker container ls
+
 <img width="695" alt="Docker_container_list" src="https://github.com/user-attachments/assets/4a5f1d19-7c90-4b8c-baee-78144673a0bc" />
 
 Access the running container's logs:
 
+    $ docker logs my-nginx
+
 <img width="579" alt="Docker_container_logs" src="https://github.com/user-attachments/assets/8e341649-04a3-4053-8091-a6beb1a6b7ed" />
 
 Inspect the container metadata:
+
+    $ docker inspect my-nginx
 
 <img width="802" alt="Docker_inspect" src="https://github.com/user-attachments/assets/607b1f48-79c7-428e-b129-7ea38312f277" />
 
@@ -49,17 +61,27 @@ Download and save the provided index.html file to your project directory:
 
 Create a Dockerfile in the same directory with the following content:
 
+    $ vi Dockerfile
+      FROM nginx:latest
+      COPY index.html /usr/share/nginx/html/index.html
+
 <img width="372" alt="Docker_Dockerfile" src="https://github.com/user-attachments/assets/27e5700c-1457-448d-952d-aff36ea5df55" />
 
 Build the image and tag it:
+
+    $ docker build -t my-nginx:custom .
 
 <img width="917" alt="Docker_build" src="https://github.com/user-attachments/assets/4ae65a3a-f894-44d9-a5f0-f162ed8c9465" />
 
 List image
 
+    $ docker image ls
+
 <img width="522" alt="Docker_image_list" src="https://github.com/user-attachments/assets/c612338a-5e64-4a41-9d38-1adf63545d75" />
 
 Run the custom container:
+
+    $ docker run -d --name=my-custom-nginx -p 8081:80 my-nginx:custom
 
 <img width="815" alt="Docker_my_custom_nginx_run" src="https://github.com/user-attachments/assets/a9dc86b0-bcbb-4569-9643-fe16fe3f6d67" />
 
@@ -98,9 +120,13 @@ Introduce an error in the Dockerfile (e.g., a typo in the COPY instruction). Bui
 
 Stop and remove the containers:
 
+    $ docker container stop $(docker container ls -q)
+
 <img width="785" alt="Docker_stop_remove" src="https://github.com/user-attachments/assets/c0fc0c1a-a903-4beb-978b-22bc7a32b748" />
 
 Remove the custom image:
+
+    $ docker container rm $(docker container ls -qa)
 
 <img width="544" alt="Docker_image_list_2" src="https://github.com/user-attachments/assets/f3aa14b1-56d6-4969-834f-b442401eb952" />
 
