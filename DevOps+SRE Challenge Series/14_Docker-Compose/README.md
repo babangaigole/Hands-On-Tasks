@@ -11,7 +11,6 @@ This challenge covers:
 * Stopping and cleaning up.
 
 Bonus tasks include:
-* Scaling the appserver service
 * Customizing service health checks
 
 ## Steps to Complete the Challenge
