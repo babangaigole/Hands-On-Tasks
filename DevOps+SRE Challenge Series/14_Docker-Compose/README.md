@@ -56,3 +56,30 @@ $ docker compose ps
 Open your browser and visit http://localhost:8080 to interact with the Yelb UI.
 
 ![yelb_ui](https://github.com/user-attachments/assets/d34453b7-21d8-4638-96a2-7437b7b93a4d)
+
+### 5. Bonus task
+
+Customize service health checks in the compose file
+
+```
+  redis-server:
+    image: redis:4.0.2
+    ports:
+      - 6379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+```
+
+This health check ensures to continuously report the health state at an interval of very 10 seconds.
+A timeout of 5 seconds defines the maximum amount of time that the health check should take.
+And retries parameter set to 3, ensures that 3 consecutive failures will mark the container unhealthy.
+
+
+
+
+
+
+
