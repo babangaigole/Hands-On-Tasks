@@ -85,6 +85,14 @@ $ docker inspect 14_docker-compose-redis-server-1 | more
 
 ![healthcheck1](https://github.com/user-attachments/assets/648f84a4-dc62-4e59-ae6d-c03e138a23a9)
 
+**Understanding health check states**
+
+`starting` - This indicates that the container is in the initial health check period.
+
+`healthy` - This means the container has passed the health check and is considered healthy.
+
+`unhealthy` - This indicates that the container has failed the health check and is considered unhealthy.
+
 ### 6. Stop and clean up
 
 Bring down all services and remove containers, networks, and volumes:
