@@ -6,7 +6,7 @@ services:
     ports:
       - 8080:80
     environment:
-      - UI_ENV=prod
+      - UI_ENV=test # dev | test | prod 
 
   yelb-appserver:
     image: mreferre/yelb-appserver:0.7
@@ -16,7 +16,7 @@ services:
     ports:
       - 4567:4567
     environment:
-      - RACK_ENV=prod
+      - RACK_ENV=test # development | test | production
 
   redis-server:
     image: redis:4.0.2

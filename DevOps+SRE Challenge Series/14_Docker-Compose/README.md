@@ -18,17 +18,41 @@ Bonus tasks include:
 
 ### 1. Install Docker Compose
 
-Docker compose official documentation
-Ref: https://docs.docker.com/compose/install/
+[Docker compose official documentation](https://docs.docker.com/compose/install/)
 
     $ docker compose version
 
 ### 2. Write a Docker compose file
 
-Create a docker-compose.yml file to define all Yelb services:
+Create a [docker-compose.yml](https://github.com/babangaigole/Hands-On-Tasks/blob/main/DevOps%2BSRE%20Challenge%20Series/14_Docker-Compose/docker-compose.yaml) file to define all Yelb services:
 
-Redis: Cache layer
-PostgreSQL: Persistent data storage
-Appserver: Application logic
-UI: User interface
+    Redis: Cache layer
+    PostgreSQL: Persistent data storage
+    Appserver: Application logic
+    UI: User interface
 
+Reference: [Yelb Project](https://github.com/mreferre/yelb/tree/master/deployments/localtest)
+
+### 3. Deploy the Yelb application
+
+Start all services with a single command:
+
+```
+docker compose up -d
+```
+
+![Docker-Compose](https://github.com/user-attachments/assets/6d48779a-2b59-4f8e-bc37-0bf26b5c39c3)
+
+### 4. Verify the deployment
+
+Check the status of all containers:
+
+```
+$ docker compose ps
+```
+
+![Docker-Compose-ps](https://github.com/user-attachments/assets/bf11d8b0-8947-473a-8a54-f42c6db245b1)
+
+Open your browser and visit http://localhost:8080 to interact with the Yelb UI.
+
+![yelb_ui](https://github.com/user-attachments/assets/d34453b7-21d8-4638-96a2-7437b7b93a4d)
