@@ -77,8 +77,39 @@ This health check ensures to continuously report the health state at an interval
 A timeout of 5 seconds defines the maximum amount of time that the health check should take.
 And retries parameter set to 3, ensures that 3 consecutive failures will mark the container unhealthy.
 
+```
+            "Restarting": false,
+            "OOMKilled": false,
+            "Dead": false,
+            "Pid": 147639,
+            "ExitCode": 0,
+            "Error": "",
+            "StartedAt": "2025-03-06T10:27:32.489075186Z",
+            "FinishedAt": "0001-01-01T00:00:00Z",
+            "Health": {
+                "Status": "healthy",
+                "FailingStreak": 0,
+                "Log": [
+                    {
+                        "Start": "2025-03-06T15:57:43.428214185+05:30",
+                        "End": "2025-03-06T15:57:43.564348497+05:30",
+                        "ExitCode": 0,
+                        "Output": "PONG\n"
+                    },
+                    {
+                        "Start": "2025-03-06T15:57:53.565841961+05:30",
+                        "End": "2025-03-06T15:57:53.635106814+05:30",
+                        "ExitCode": 0,
+                        "Output": "PONG\n"
+                    }
+                ]
+            }
+        },
+        "Image": "sha256:8f2e175b3bd129fd9416df32a0e51f36632e3ab82c5608b4030590ad79f0be12",
+        "ResolvConfPath": "/var/lib/docker/containers/74cdea46004c131afa710ef581a2e14f505c8d17a453bcaa9c7dda60ad7acb97/resolv.conf",
+        "HostnamePath": "/var/lib/docker/containers/74cdea46004c131afa710ef581a2e14f505c8d17a453bcaa9c7dda60ad7acb97/hostname",
 
-
+```
 
 
 
