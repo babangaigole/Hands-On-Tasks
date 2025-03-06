@@ -1,4 +1,3 @@
-version: "2.1"
 services:
   yelb-ui:
     image: mreferre/yelb-ui:0.10
@@ -23,6 +22,11 @@ services:
     image: redis:4.0.2
     ports:
       - 6379:6379
+    healthcheck:
+      test: ["CMD", "redis-cli", "ping"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
 
   yelb-db:
     image: mreferre/yelb-db:0.6
